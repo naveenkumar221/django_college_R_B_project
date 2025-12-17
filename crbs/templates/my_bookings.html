@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Bookings</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c5364;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2c5364;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f4f6f9;
+        }
+
+        tr:hover {
+            background: #eef3f8;
+        }
+
+        .status-approved {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            font-weight: bold;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Booking List</h2>
+
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Resource</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.student_name }}</td>
+            <td>{{ b.resource_name }}</td>
+            <td>{{ b.booking_date }}</td>
+            <td>{{ b.booking_time }}</td>
+            <td>
+                {% if b.status == "Approved" %}
+                    <span class="status-approved">Approved</span>
+                {% elif b.status == "Rejected" %}
+                    <span class="status-rejected">Rejected</span>
+                {% else %}
+                    <span class="status-pending">Pending</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="empty">No bookings yet</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

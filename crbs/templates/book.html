@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Resource</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px 40px;
+            width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .user-info {
+            background: #f4f6f9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #2a5298;
+            color: white;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e3c72;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Book a Resource</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+
+            {% if guest %}
+                <div class="user-info">
+                    <b>Guest User</b><br>
+                    Please login to submit a booking
+                </div>
+                {% else %}
+                <div class="user-info">
+                    {% if request.user.groups.first and request.user.groups.first.name == "Teacher" %}
+                        <b>Teacher:</b> {{ request.user.username }}
+                    {% elif request.user.groups.first and request.user.groups.first.name == "Student" %}
+                        <b>Student:</b> {{ request.user.username }}
+                    {% else %}
+                        <b>User:</b> {{ request.user.username }}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <label>Resource Name</label>
+            <input type="text" name="resource_name" required>
+
+            <label>Date</label>
+            <input type="date" name="booking_date" required>
+
+            <label>Time</label>
+            <input type="time" name="booking_time" required>
+
+            {% if guest %}
+                <button type="button" disabled style="background:#999; cursor:not-allowed;">
+                    Login required to Book
+                </button>
+            {% else %}
+                <button type="submit">Book Resource</button>
+            {% endif %}
+
+        </form>
+    </div>
+
+</body>
+</html>

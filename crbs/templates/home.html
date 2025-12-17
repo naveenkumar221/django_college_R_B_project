@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255,255,255,0.12);
+            padding: 35px 45px;
+            border-radius: 12px;
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .username {
+            color: #ffd369;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: block;
+            text-decoration: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #ffd369;
+            color: #222;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ffbe33;
+        }
+
+        .logout {
+            background: #ff4b5c;
+            color: white;
+        }
+
+        .logout:hover {
+            background: #e43f50;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    {% if user.is_authenticated %}
+        <!-- LOGGED-IN USER -->
+        <h2>Welcome <span class="username">{{ user.username }}</span></h2>
+
+        <a href="/book/" class="btn">Book Resource</a>
+        <a href="/my-bookings/" class="btn">My Bookings</a>
+        <a href="/logout/" class="btn logout">Logout</a>
+
+    {% elif is_guest %}
+        <!-- GUEST USER -->
+        <h2>Welcome <span class="username">Guest</span></h2>
+
+        <a href="/book/" class="btn">Book Resource</a>
+
+        <p style="margin-top:12px; color:#ffd369;">
+            Login required to submit booking
+        </p>
+
+        <a href="/accounts/login/" class="btn">Login</a>
+        <a href="/logout/" class="btn logout">Exit Guest</a>
+
+    {% else %}
+        <!-- NOT LOGGED IN -->
+        <h2>Welcome</h2>
+
+        <a href="/register/" class="btn">Register</a>
+        <a href="/accounts/login/" class="btn">Login</a>
+    {% endif %}
+
+</div>
+
+
+</body>
+</html>
